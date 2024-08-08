@@ -42,3 +42,21 @@ body {
   width: 100%;
   height: 100dvh;
 }
+
+.financialChartLegend {
+  display: none!important;
+}
+.financialChartIndicatorMenu {
+  display: none!important;
+}
+
+.financialChartTypePicker {
+  display: none!important;
+}
+
+.financialChartToolbar {
+  background-color: transparent!important;
+  border: none!important;
+  position: absolute;
+  right: 0;
+}

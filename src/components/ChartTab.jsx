@@ -1,17 +1,36 @@
-import ChartUI from './ChartUI';
+// import ChartUI from './ChartUI';
 import compareSVG from '../assets/compare.svg';
 import fullScreenSVG from '../assets/fullscreen.svg';
+import { useState, useEffect } from 'react';
+import { IgrFinancialChart } from 'igniteui-react-charts';
+import { IgrFinancialChartModule } from "igniteui-react-charts";
+import { StocksHistory } from './StocksHistory';
 
 // Array of time periods for the time selector
 const time = ['1d', '3d', '1w', '1m', '6m', '1y', 'max'];
 
+IgrFinancialChartModule.register();
+
+
 // ChartTab component
-export default function ChartTab() {
+export function ChartTab() {
+    const [data, setData] = useState([]);
+    const [zoomRange, setZoomRange] = useState({ start: 0, end: 0 });
+
+    useEffect(() => {
+        const initData = async () => {
+            const stocks = await StocksHistory.getMultipleStocks();
+            setData(stocks);
+            setZoomRange({ start: 0, end: stocks.length });
+        };
+        initData();
+    }, []);
+
     return (
         // Main container for the chart tab
         <div className='flex flex-col w-full'>
             {/* Actions container for the fullscreen and compare buttons and the time selector */}
-            <div className="Actions flex justify-between flex-col md:flex-row gap-3 md:gap-0 mb-8">
+            <div className="Actions flex justify-between flex-col md:flex-row gap-3 md:gap-0 mb-2">
                 {/* Container for the fullscreen and compare buttons */}
                 <div className='inline-flex gap-9'>
                     {/* Fullscreen button */}
@@ -36,7 +55,27 @@ export default function ChartTab() {
             {/* Container for the chart UI */}
             <div className="mixed-chart h-full w-full">
                 {/* Chart UI component */}
-                <ChartUI />
+                {/* <FinancialChart /> */}
+                <div className="container sample">
+                    <div className="container relative" style={{ height: "calc(100vh - 22rem)" }}>
+
+                        <IgrFinancialChart
+                            width="100%"
+                            height="100%"
+                            chartType="Line"
+                            thickness={1.5}
+                            // dataSource={data}
+                            dataSource={data.slice(zoomRange.start, zoomRange.end)}
+                            toolTipType="None"
+                            finalValueAnnotationsVisible={false}
+                            brushes="#4b40ee"
+                            zoomSliderType="None"
+
+                            isToolbarVisible={false}
+                        // yAxisLabelLocation={-5}
+                        />
+                    </div>
+                </div>
             </div>
         </div>
     )

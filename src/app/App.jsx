@@ -7,7 +7,7 @@ function App() {
   return (
     // The div with the class "Desktop font-csb relative container mx-0 w-full py-16 bg-white "
     // is the root element of the application.
-    <div className="Desktop font-csb relative container mx-0 w-full py-16 bg-white ">
+    <div className="Desktop font-csb relative container mx-0 w-full pt-16 bg-white ">
 
       {/* The Price component is rendered inside the root element */}
       <Price />
